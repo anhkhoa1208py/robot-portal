@@ -50,7 +50,7 @@ npm run docker:up
 docker build -t face-recognition-portal:latest .
 
 # Run container
-docker run -p 3000:3000 --env-file .env.production face-recognition-portal:latest
+docker run -d -p 3000:3000 --env-file .env.production face-recognition-portal:latest
 ```
 
 ### Management Commands
