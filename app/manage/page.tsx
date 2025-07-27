@@ -71,10 +71,10 @@ export default function ManagePage() {
   useEffect(() => {
     const filtered = users.filter(
       (user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (user.phone && user.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.cccd_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.permanent_address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.id.toString().includes(searchTerm),
     )
     setFilteredUsers(filtered)
@@ -229,7 +229,7 @@ export default function ManagePage() {
                   >
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
                     <Input
-                      placeholder="Search users by name, email, employee ID, or department..."
+                      placeholder="Search users by name, CCCD number, address, gender, or ID..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-12 h-12 text-lg bg-white/60 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400"

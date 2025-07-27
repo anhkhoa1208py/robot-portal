@@ -34,24 +34,24 @@ export function EnrollmentSuccess({ userData, onReset }: EnrollmentSuccessProps)
             )}
             <div className="text-left">
               <h4 className="font-semibold text-lg">
-                {userData.firstName} {userData.lastName}
+                {userData.full_name}
               </h4>
-              <p className="text-sm text-gray-600">{userData.position}</p>
+              <p className="text-sm text-gray-600">CCCD: {userData.cccd_number}</p>
             </div>
           </div>
 
           <div className="space-y-3 text-left">
             <div className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-gray-400" />
-              <span className="text-sm">{userData.email}</span>
+              <User className="w-4 h-4 text-gray-400" />
+              <span className="text-sm">Gender: {userData.gender}</span>
             </div>
             <div className="flex items-center gap-3">
-              <User className="w-4 h-4 text-gray-400" />
-              <span className="text-sm">ID: {userData.employeeId}</span>
+              <Calendar className="w-4 h-4 text-gray-400" />
+              <span className="text-sm">Born: {new Date(userData.birth_date).toLocaleDateString()}</span>
             </div>
             <div className="flex items-center gap-3">
               <Building className="w-4 h-4 text-gray-400" />
-              <span className="text-sm">{userData.department}</span>
+              <span className="text-sm">Address: {userData.permanent_address}</span>
             </div>
             <div className="flex items-center gap-3">
               <Calendar className="w-4 h-4 text-gray-400" />

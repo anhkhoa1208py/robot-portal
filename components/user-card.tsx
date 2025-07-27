@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Eye, Trash2, MoreVertical, Mail, Calendar, Building, Hash } from "lucide-react"
+import { Eye, Trash2, MoreVertical, Calendar, MapPin, Hash, User2, Cake } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import Image from "next/image"
 import type { User } from "@/lib/api"
@@ -31,15 +31,15 @@ export function UserCard({ user, onDelete, onToggleStatus }: UserCardProps) {
               <motion.div whileHover={{ scale: 1.1 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                 <Image
                   src={user.image_url || "/placeholder.svg?height=100&width=100"}
-                  alt={user.name}
+                  alt={user.full_name}
                   width={60}
                   height={60}
                   className="w-15 h-15 object-cover rounded-full border-2 border-white shadow-md"
                 />
               </motion.div>
               <div>
-                <h4 className="font-bold text-slate-800 text-lg">{user.name}</h4>
-                <p className="text-sm text-slate-600 font-medium">ID: {user.id}</p>
+                <h4 className="font-bold text-slate-800 text-lg">{user.full_name}</h4>
+                <p className="text-sm text-slate-600 font-medium">CCCD: {user.cccd_number}</p>
               </div>
             </div>
             <DropdownMenu>
@@ -81,19 +81,17 @@ export function UserCard({ user, onDelete, onToggleStatus }: UserCardProps) {
 
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-slate-400" />
-              <span className="text-sm text-slate-600 truncate">{user.email}</span>
+              <User2 className="w-4 h-4 text-slate-400" />
+              <span className="text-sm text-slate-600 truncate capitalize">{user.gender}</span>
             </div>
             <div className="flex items-center gap-3">
-              <Building className="w-4 h-4 text-slate-400" />
-              <span className="text-sm font-medium text-slate-700">{user.department}</span>
+              <Cake className="w-4 h-4 text-slate-400" />
+              <span className="text-sm font-medium text-slate-700">Born: {new Date(user.birth_date).toLocaleDateString()}</span>
             </div>
-            {user.phone && (
-              <div className="flex items-center gap-3">
-                <Hash className="w-4 h-4 text-slate-400" />
-                <span className="text-sm text-slate-600">{user.phone}</span>
-              </div>
-            )}
+            <div className="flex items-center gap-3">
+              <MapPin className="w-4 h-4 text-slate-400" />
+              <span className="text-sm text-slate-600 truncate" title={user.permanent_address}>{user.permanent_address}</span>
+            </div>
             <div className="flex items-center gap-3">
               <Calendar className="w-4 h-4 text-slate-400" />
               <span className="text-sm text-slate-600">Created: {new Date(user.created_at).toLocaleDateString()}</span>

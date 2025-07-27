@@ -23,10 +23,11 @@ interface UserFormProps {
 
 export function UserForm({ imageData, imageFile, onSubmit, onBack }: UserFormProps) {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    department: "",
+    cccd_number: "",
+    full_name: "",
+    gender: "",
+    birth_date: "",
+    permanent_address: "",
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -37,10 +38,12 @@ export function UserForm({ imageData, imageFile, onSubmit, onBack }: UserFormPro
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
-    if (!formData.name.trim()) newErrors.name = "Full name is required"
-    if (!formData.email.trim()) newErrors.email = "Email is required"
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid"
-    if (!formData.department) newErrors.department = "Department is required"
+    if (!formData.cccd_number.trim()) newErrors.cccd_number = "CCCD number is required"
+    else if (!/^\d{12}$/.test(formData.cccd_number)) newErrors.cccd_number = "CCCD number must be 12 digits"
+    if (!formData.full_name.trim()) newErrors.full_name = "Full name is required"
+    if (!formData.gender) newErrors.gender = "Gender is required"
+    if (!formData.birth_date) newErrors.birth_date = "Birth date is required"
+    if (!formData.permanent_address.trim()) newErrors.permanent_address = "Permanent address is required"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -72,10 +75,11 @@ export function UserForm({ imageData, imageFile, onSubmit, onBack }: UserFormPro
     try {
       // Call the real enrollment API with correct field structure
       const enrollmentData = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        department: formData.department,
+        cccd_number: formData.cccd_number,
+        full_name: formData.full_name,
+        gender: formData.gender,
+        birth_date: formData.birth_date,
+        permanent_address: formData.permanent_address,
         image: imageFile,
       }
 
@@ -198,103 +202,134 @@ export function UserForm({ imageData, imageFile, onSubmit, onBack }: UserFormPro
         {/* Form */}
         <motion.form variants={itemVariants} onSubmit={handleSubmit} className="flex-1 space-y-6">
           <div>
-            <Label htmlFor="name" className="text-sm font-semibold text-slate-700">
-              Full Name *
+            <Label htmlFor="cccd_number" className="text-sm font-semibold text-slate-700">
+              CCCD Number *
             </Label>
             <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => handleChange("name", e.target.value)}
+              id="cccd_number"
+              value={formData.cccd_number}
+              onChange={(e) => handleChange("cccd_number", e.target.value)}
               className={`mt-2 h-12 bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400 ${
-                errors.name ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
+                errors.cccd_number ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
               }`}
-              placeholder="Enter full name"
+              placeholder="Enter 12-digit CCCD number"
+              maxLength={12}
               disabled={isSubmitting}
             />
-            {errors.name && (
+            {errors.cccd_number && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-red-500 text-xs mt-1"
               >
-                {errors.name}
+                {errors.cccd_number}
               </motion.p>
             )}
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-sm font-semibold text-slate-700">
-              Email Address *
+            <Label htmlFor="full_name" className="text-sm font-semibold text-slate-700">
+              Full Name *
             </Label>
             <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleChange("email", e.target.value)}
+              id="full_name"
+              value={formData.full_name}
+              onChange={(e) => handleChange("full_name", e.target.value)}
               className={`mt-2 h-12 bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400 ${
-                errors.email ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
+                errors.full_name ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
               }`}
-              placeholder="Enter email address"
+              placeholder="Enter full name"
               disabled={isSubmitting}
             />
-            {errors.email && (
+            {errors.full_name && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-red-500 text-xs mt-1"
               >
-                {errors.email}
+                {errors.full_name}
               </motion.p>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="phone" className="text-sm font-semibold text-slate-700">
-                Phone Number
+              <Label htmlFor="gender" className="text-sm font-semibold text-slate-700">
+                Gender *
               </Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-                className="mt-2 h-12 bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400"
-                placeholder="Enter phone number"
-                disabled={isSubmitting}
-              />
-            </div>
-            <div>
-              <Label htmlFor="department" className="text-sm font-semibold text-slate-700">
-                Department *
-              </Label>
-              <Select onValueChange={(value) => handleChange("department", value)} disabled={isSubmitting}>
+              <Select onValueChange={(value) => handleChange("gender", value)} disabled={isSubmitting}>
                 <SelectTrigger
                   className={`mt-2 h-12 bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400 ${
-                    errors.department ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
+                    errors.gender ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
                   }`}
                 >
-                  <SelectValue placeholder="Select department" />
+                  <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="sales">Sales</SelectItem>
-                  <SelectItem value="hr">Human Resources</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                  <SelectItem value="operations">Operations</SelectItem>
-                  <SelectItem value="DigitalBanking">Digital Banking</SelectItem>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
-              {errors.department && (
+              {errors.gender && (
                 <motion.p
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="text-red-500 text-xs mt-1"
                 >
-                  {errors.department}
+                  {errors.gender}
                 </motion.p>
               )}
             </div>
+            <div>
+              <Label htmlFor="birth_date" className="text-sm font-semibold text-slate-700">
+                Birth Date *
+              </Label>
+              <Input
+                id="birth_date"
+                type="date"
+                value={formData.birth_date}
+                onChange={(e) => handleChange("birth_date", e.target.value)}
+                className={`mt-2 h-12 bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400 ${
+                  errors.birth_date ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
+                }`}
+                disabled={isSubmitting}
+              />
+              {errors.birth_date && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-500 text-xs mt-1"
+                >
+                  {errors.birth_date}
+                </motion.p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="permanent_address" className="text-sm font-semibold text-slate-700">
+              Permanent Address *
+            </Label>
+            <Textarea
+              id="permanent_address"
+              value={formData.permanent_address}
+              onChange={(e) => handleChange("permanent_address", e.target.value)}
+              className={`mt-2 min-h-[100px] bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400 ${
+                errors.permanent_address ? "border-red-400 focus:border-red-400 focus:ring-red-400" : ""
+              }`}
+              placeholder="Enter permanent address"
+              disabled={isSubmitting}
+            />
+            {errors.permanent_address && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-500 text-xs mt-1"
+              >
+                {errors.permanent_address}
+              </motion.p>
+            )}
           </div>
 
 

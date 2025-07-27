@@ -57,10 +57,11 @@ export interface DeleteUserResponse {
 
 export interface User {
   id: number
-  name: string
-  email: string
-  phone?: string
-  department: string
+  cccd_number: string
+  full_name: string
+  gender: string
+  birth_date: string
+  permanent_address: string
   image_url?: string
   created_at: string
   updated_at: string
@@ -133,23 +134,22 @@ export class FaceRecognitionAPI {
 
   // Enroll a new user with face data
   static async enrollUser(userData: {
-    name: string
-    email: string
-    phone?: string
-    department: string
+    cccd_number: string
+    full_name: string
+    gender: string
+    birth_date: string
+    permanent_address: string
     image: File
   }): Promise<EnrollResponse> {
     const formData = new FormData()
 
-    // Append user data - matching the curl command exactly
-    formData.append("name", userData.name)
-    formData.append("email", userData.email)
-    formData.append("department", userData.department)
+    // Append user data - matching the new backend structure
+    formData.append("cccd_number", userData.cccd_number)
+    formData.append("full_name", userData.full_name)
+    formData.append("gender", userData.gender)
+    formData.append("birth_date", userData.birth_date)
+    formData.append("permanent_address", userData.permanent_address)
     formData.append("image", userData.image)
-    
-    if (userData.phone) {
-      formData.append("phone", userData.phone)
-    }
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/enroll`, {
